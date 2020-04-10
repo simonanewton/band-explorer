@@ -1,0 +1,29 @@
+#cityDiv{
+    width: 60%;
+    margin: auto;
+    text-align: center;
+}
+
+input[type='text']{
+    height: 40px;
+    font-size: 20px;
+}
+
+#submitCity{
+    height: 40px;
+    font-weight: bold;
+}
+
+#errorCity{
+    width: 50%;
+    margin: auto;
+   text-align: center;
+}
+
+#showWeather{
+    width: 60%;
+    margin: auto;
+    background-color: #4aa1f3;
+    color: white;
+    border-radius: 25px;
+}
