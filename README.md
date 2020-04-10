@@ -1,4 +1,4 @@
-# Project 1
+# Project 1 - Band Explorer
 
 ## Description
 
@@ -6,26 +6,32 @@ An interactive application that assists users with finding nearby concerts. This
 
 ## User Story
 
-AS A user
-I WANT to be able to search for live concerts in the area of my choosing
-SO THAT I can find a concert to see today or in the future
+AS A User:
 
-AS A user
-I WANT to be able to search for live concerts by band name
-SO THAT I can see where my favorite bands are playing
+* I WANT to be able to search for live concerts in the area of my choosing
+* SO THAT I can find a concert to see today or in the future
 
-AS A user
-I WANT to receive music recommendations based on the concert I choose
-SO THAT I can decide if I would like to attend the concert.
+* I WANT to be able to search for live concerts by band name
+* SO THAT I can see where my favorite bands are playing
 
-AS A user
-I WANT to check the local weather for the date of the concert
-SO THAT I am prepared for the concert
+* I WANT to receive music recommendations based on the concert I choose
+* SO THAT I can decide if I would like to attend the concert.
+
+* I WANT to check the local weather for the date of the concert
+* SO THAT I am prepared for the concert
+
+## Credits
+
+* https://momentjs.com/
 
 ## Contributors
 
-- Simon Newton
-- Dany Grimaldo
-- Darko Sojanovski
-- Rishabh Surana
-- John Herman
+* Simon Newton
+* Dany Grimaldo
+* Darko Sojanovski
+* Rishabh Surana
+* John Herman
+
+## Lisence
+
+TBD
