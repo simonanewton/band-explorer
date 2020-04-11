@@ -10,7 +10,6 @@ function searchByArtist(artist) {
       // Pulls artist info from API
       var artistName = response.name;
       var artistImg = response.thumb_url;
-      // console.log(artistName, artistImg);
 
       $("#artist-info").append(`
             
@@ -30,14 +29,12 @@ function searchByArtist(artist) {
         method: "GET",
       })
         .then(function (response) {
-          console.log(response.length);
+          console.log(response);
 
           response.forEach((event) => {
-            console.log(event.venue);
-
             $("#artist-events").append(`
             
-            <p>${event.venue.name} | ${event.venue.city}, ${event.venue.region}</p>
+            <p>${event.datetime} ${event.venue.name} ${event.venue.city}, ${event.venue.region}</p>
             
             
             `);
