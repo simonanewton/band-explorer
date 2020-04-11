@@ -6,3 +6,19 @@ body {
 #nav-header li:hover {
     text-decoration: underline;
 }
+
+.most-searched li {
+    display: inline-block;
+}
+
+.most-searched li:after { 
+    content: " \00b7"; 
+}
+
+.most-searched li:last-child:after { 
+    content: none; 
+}
+
+.most-searched li:hover {
+    text-decoration: underline;
+}
