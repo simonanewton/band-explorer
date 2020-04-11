@@ -31,14 +31,13 @@ function searchByArtist(artist) {
         .then(function (response) {
           console.log(response);
 
-          response.forEach((event) => {
+          for (let i = 0; i < 5; i++) {
             $("#artist-events").append(`
             
-            <p>${event.datetime} ${event.venue.name} ${event.venue.city}, ${event.venue.region}</p>
-            
-            
+            <p> ${response[i].datetime} ${response[i].venue.name} ${response[i].venue.city}, ${response[i].venue.region} </p>
+                       
             `);
-          });
+          }
         })
         .catch();
     })
