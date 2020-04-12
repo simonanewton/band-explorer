@@ -12,11 +12,11 @@ function searchTopTracks(artist) {
     method: "GET",
   })
     .then(function (response) {
-      console.log(response.toptracks.track[0]);
+      console.log(response);
 
       $("#top-track").append(`
         
-        <h1>Top Track: ${response.toptracks.track[0].name}</h1>
+        <p>Top Track: ${response.toptracks.track[0].name}</p>
         
         `);
     })
@@ -39,11 +39,11 @@ function searchTopAlbum(artist) {
     method: "GET",
   })
     .then(function (response) {
-      console.log(response.topalbums.album[0].name);
+      console.log(response);
 
       $("#top-album").append(`
 
-          <h1>Top Album: ${response.topalbums.album[0].name}</h1>
+          <p>Top Album: ${response.topalbums.album[0].name}</p>
 
           `);
     })
