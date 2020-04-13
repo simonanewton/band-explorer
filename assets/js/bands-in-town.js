@@ -1,4 +1,4 @@
-function searchByArtist(artist) {
+function displayEvents(artist) {
   // Now pull event info from API
   var eventURL =
     "https://rest.bandsintown.com/artists/" +
@@ -14,32 +14,24 @@ function searchByArtist(artist) {
 
       for (let i = 0; i < 5; i++) {
         // Makes Event Date user friendly
-        var eventMonth = response[i].datetime[5] + response[i].datetime[6];
-        var eventDay = response[i].datetime[8] + response[i].datetime[9];
-        var eventYear = response[i].datetime[2] + response[i].datetime[3];
-        var eventDate = eventMonth + "/" + eventDay + "/" + eventYear;
-        // Sets event hour to non-military format to be user friendly
-        var eventHour =
-          response[i].datetime[11] + response[i].datetime[12] - 12;
-        // console.log(eventHour);
-        var eventMinute = response[i].datetime[14] + response[i].datetime[15];
-        var eventTime = eventHour + ":" + eventMinute + "PM";
-
-        // Stores lat and lon of concert location
-        var venueLat = response[i].venue.latitude;
-        var venueLon = response[i].venue.longitude;
-
-        var venueState = response[i].venue.region;
-        var venueCountry = response[i].venue.country;
+        var eventDate =
+          response[i].datetime[5] +
+          response[i].datetime[6] +
+          "/" +
+          response[i].datetime[8] +
+          response[i].datetime[9] +
+          "/" +
+          response[i].datetime[2] +
+          response[i].datetime[3];
 
         var venueLocation = "";
 
         // If the event is not in the US, it will display the Country...
         // Else, it will display the State
-        if (venueState === "") {
-          venueLocation += venueCountry;
+        if (response[i].venue.region === "") {
+          venueLocation += response[i].venue.country;
         } else {
-          venueLocation += venueState;
+          venueLocation += response[i].venue.region;
         }
 
         // console.log("Latitude: " + venueLat);
@@ -47,30 +39,37 @@ function searchByArtist(artist) {
 
         $("#artist-events").append(`
             
-            <div data-name="${i}">
-            
             <ul>
-              <li> ${eventDate} ${response[i].venue.city}, ${venueLocation}</li>
+              <li data-name="${response[i].lineup[0]}"> ${eventDate} ${response[i].venue.city}, ${venueLocation}</li>
             </ul>
-              
-
-              
-            </div>      
-              
+             
             `);
       }
 
-      var eventMonth = response[0].datetime[5] + response[0].datetime[6];
-      var eventDay = response[0].datetime[8] + response[0].datetime[9];
-      var eventYear = response[0].datetime[2] + response[0].datetime[3];
-      var eventDate = eventMonth + "/" + eventDay + "/" + eventYear;
-      // Sets event hour to non-military format to be user friendly
-      var eventHour = response[0].datetime[11] + response[0].datetime[12] - 12;
-      // console.log(eventHour);
-      var eventMinute = response[0].datetime[14] + response[0].datetime[15];
-      var eventTime = eventHour + ":" + eventMinute + "PM";
+      // Displaying upcoming event
 
-      // Stores lat and lon of concert location
+      // Sets Date to user friendly format
+      var eventDate =
+        response[0].datetime[5] +
+        response[0].datetime[6] +
+        "/" +
+        response[0].datetime[8] +
+        response[0].datetime[9] +
+        "/" +
+        response[0].datetime[2] +
+        response[0].datetime[3];
+
+      // Sets event hour to non-military format to be user friendly
+      var eventTime =
+        response[0].datetime[11] +
+        response[0].datetime[12] -
+        12 +
+        ":" +
+        response[0].datetime[14] +
+        response[0].datetime[15] +
+        " PM";
+
+      // Stores lat and lon of concert location ---------------------------------------------------------
       var venueLat = response[0].venue.latitude;
       var venueLon = response[0].venue.longitude;
 
@@ -106,5 +105,5 @@ function searchByArtist(artist) {
 $("#search-btn").on("click", function (event) {
   event.preventDefault();
   $("#artist-events, #main-event").empty();
-  searchByArtist($("#search-by-artist").val());
+  displayEvents($("#search-by-artist").val());
 });
