@@ -3,7 +3,7 @@ $(document).ready(function () {
     var searchBar = $("#search-bar");
     var searchBtn = $("#search-button");
 
-    var allEventsDates = $(".all-events-date");
+    var allEventsDates = $("#all-events-dates");
 
     var recentlySearched = $("#recently-searched");
     var mostPopular = $("#most-popular");
