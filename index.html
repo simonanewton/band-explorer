@@ -30,7 +30,7 @@
     <header class="bg-dark p-4">
         <h1 class="p-2 text-white text-center">Band Explorer Website</h1>
 
-        <ul class="nav justify-content-center" id="nav-header">
+        <ul class="nav justify-content-center">
             <li class="nav-item">
                 <a class="nav-link active text-white" href="./index.html">Home</a>
             </li>
@@ -51,8 +51,8 @@
         <div class="row">
             <div class="col p-0 mx-3 mt-3 mb-2">
                 <form class="border border-dark rounded d-flex">
-                    <input type="text" placeholder="Enter an artist name..." class="border-0 rounded-left p-3 w-100">
-                    <button type="submit" class="btn btn-primary border-0 rounded-right">
+                    <input type="text" placeholder="Enter an artist name..." class="border-0 rounded-left p-3 w-100" id="search-bar">
+                    <button type="submit" class="btn btn-primary border-0 rounded-right" id="search-button">
                         <i class="fas fa-search p-1"></i>
                     </button>
                 </form>
@@ -110,7 +110,7 @@
         <div class="row">
             <div class="col p-4 mx-3 mb-3 bg-light border border-dark rounded d-flex">
                 <h3 class="py-2 m-0" style="text-decoration: underline;">Event Forecast:</h3>
-                <i class="fas fa-cloud-sun fa-3x px-4"></i>
+                <i class="fas fa-cloud-sun fa-3x px-4" id="event-icon"></i>
 
                 <ul class="p-0 m-0 d-flex align-items-center" style="list-style-type: none;">
                     <li class="px-2" id="event-temp">Temperature: </li>
@@ -125,9 +125,9 @@
         <!-- Popular and Nearby Artists -->
         <div class="row d-flex">
             <div class="col p-4 mx-3 mb-3 bg-light text-center border border-dark rounded" style="font-size: 18px;">
-                <h3 class="py-2" style="text-decoration: underline;">Most Searched Artists:</h3>
+                <h3 class="py-2" style="text-decoration: underline;">Recently Searched Artists:</h3>
 
-                <ul class="p-0 most-searched" style="list-style-type: none;">
+                <ul class="p-0 most-searched" style="list-style-type: none;" id="recently-searched">
                     <li>Lil Wayne</li>
                     <li>Mac Miller</li>
                     <li>Snoop Dog</li>
@@ -147,9 +147,9 @@
             </div>
 
             <div class="col p-4 mr-3 mb-3 bg-light text-center border border-dark rounded" style="font-size: 18px;">
-                <h3 class="py-2" style="text-decoration: underline;">Popular Artists Near You:</h3>
+                <h3 class="py-2" style="text-decoration: underline;">Most Popular Artists:</h3>
 
-                <ul class="p-0 most-searched" style="list-style-type: none;">
+                <ul class="p-0 most-searched" style="list-style-type: none;" id="most-popular">
                     <li>Lil Wayne</li>
                     <li>Mac Miller</li>
                     <li>Snoop Dog</li>
