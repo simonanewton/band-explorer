@@ -47,20 +47,64 @@ function searchByArtist(artist) {
 
         $("#artist-events").append(`
             
-              <p> ${eventDate} ${eventTime} </p>
+            <div data-name="${i}">
+            
+            <ul>
+              <li> ${eventDate} ${response[i].venue.city}, ${venueLocation}</li>
+            </ul>
+              
 
-              <p> ${response[i].venue.name} - ${response[i].venue.city}, ${venueLocation}</p>
-
-              <a href="${response[i].offers[0].url}">Tickets</a>
-                       
+              
+            </div>      
+              
             `);
       }
+
+      var eventMonth = response[0].datetime[5] + response[0].datetime[6];
+      var eventDay = response[0].datetime[8] + response[0].datetime[9];
+      var eventYear = response[0].datetime[2] + response[0].datetime[3];
+      var eventDate = eventMonth + "/" + eventDay + "/" + eventYear;
+      // Sets event hour to non-military format to be user friendly
+      var eventHour = response[0].datetime[11] + response[0].datetime[12] - 12;
+      // console.log(eventHour);
+      var eventMinute = response[0].datetime[14] + response[0].datetime[15];
+      var eventTime = eventHour + ":" + eventMinute + "PM";
+
+      // Stores lat and lon of concert location
+      var venueLat = response[0].venue.latitude;
+      var venueLon = response[0].venue.longitude;
+
+      var venueState = response[0].venue.region;
+      var venueCountry = response[0].venue.country;
+
+      var venueLocation = "";
+
+      // If the event is not in the US, it will display the Country...
+      // Else, it will display the State
+      if (venueState === "") {
+        venueLocation += venueCountry;
+      } else {
+        venueLocation += venueState;
+      }
+
+      $("#main-event").append(`
+            
+            <div>
+            <h1>Upcoming Event</h1>
+              <p> ${eventDate} ${eventTime} </p>
+
+              <p> ${response[0].venue.name} - ${response[0].venue.city}, ${venueLocation}</p>
+
+              <a href="${response[0].offers[0].url}">Tickets</a>
+            </div>      
+              
+            `);
     })
     .catch();
 }
 
 $("#search-btn").on("click", function (event) {
   event.preventDefault();
-  $("#artist-info, #artist-events").empty();
+  $("#artist-events, #main-event").empty();
   searchByArtist($("#search-by-artist").val());
 });
