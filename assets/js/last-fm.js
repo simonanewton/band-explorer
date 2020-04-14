@@ -44,8 +44,9 @@ function searchTopAlbum(artist) {
       $("#top-album").append(`
 
           <p>Top Album: ${response.topalbums.album[0].name}</p>
-
+          <img src="${response.topalbums.album[0].image[3]}">
           `);
+          console.log(response);
     })
     .catch(function (err) {
       console.log(err);
