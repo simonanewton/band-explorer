@@ -1,215 +1,186 @@
 $(document).ready(function () {
-  var searchBar = $("#search-bar");
-  var searchBtn = $("#search-button");
 
-  var allEventsDates = $("#all-events-dates");
+	var searchBar = $("#search-bar");
+	var searchBtn = $("#search-button");
 
-  var recentlySearched = $("#recently-searched");
-  var mostPopular = $("#most-popular");
+	var artistName = $("#artist-name");
+	var popularSong = $("#popular-song");
+	var topSongs = $("#top-songs");
+	var popularAlbum = $("#popular-album");
+	var similarArtists = $("#similar-artists");
 
-  //--------------------------------------------------------------
+	var allEventsDates = $("#all-events-dates");
 
-  function addArtistInfo(artist) {
-    //   1st Call to Last.FM API to obtain Artist Name & Songs
-    var queryURL =
-      "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=" +
-      artist +
-      "&api_key=b69d917e3739d4f7f4894f4b185cd0db&format=json";
+	var upcomingDate = $("#upcoming-date");
+	var upcomingLocation = $("#upcoming-location");
+	var upcomingAddress = $("#upcoming-address");
+	var upcomingTicket = $("#upcoming-ticket");
 
-    $.ajax({
-      url: queryURL,
-      method: "GET",
-    })
-      .then(function (response) {
-        // Fills Artist Name...
-        $("#artist-name").text(response.toptracks.track[0].artist.name);
+	var LastFmAPIkey = "&api_key=b69d917e3739d4f7f4894f4b185cd0db&format=json";
+	var BitAPIKey = "/events?app_id=codingbootcamp";
 
-        // Appends Top Song with link...
-        $("#popular-song").empty().append(`
-        
-            <li class="py-2" id="popular-song">Most Popular Song:
-                <a class="text-dark" href="${response.toptracks.track[0].url}">${response.toptracks.track[0].name}</a>
-            </li>
+	//--------------------------------------------------------------
 
-        `);
+	function getArtistAlbum(artist) {
+		
+		var queryURL = "http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=" + artist + LastFmAPIkey;
+	
+		$.ajax({
+			url: queryURL,
+			method: "GET"
+		})
+		.then(function (response) {
+			popularAlbum.empty();
+			popularAlbum.text("Most Popular Album: ");
 
-        // Appends 3 more Top Songs...
-        $("#favorite-songs").empty().append(`
-        
-            <li class="py-2" id="favorite-songs">More Top Songs:
-                <a class="text-dark" href="${response.toptracks.track[1].url}">${response.toptracks.track[1].name}</a>,
-                <a class="text-dark" href="${response.toptracks.track[2].url}">${response.toptracks.track[2].name}</a>,
-                <a class="text-dark" href="${response.toptracks.track[3].url}">${response.toptracks.track[3].name}</a>
-            </li>
-        
-        `);
+			var album = $("<a>");
+			album.attr("href", response.topalbums.album[0].url);
+			album.text(response.topalbums.album[0].name);
 
-        // 2nd Call to Last.FM API to obtain Artist Album info
-        var queryURL =
-          "http://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=" +
-          artist +
-          "&api_key=b69d917e3739d4f7f4894f4b185cd0db&format=json";
+			popularAlbum.append(album);
 
-        $.ajax({
-          url: queryURL,
-          method: "GET",
-        })
-          .then(function (response) {
-            // Appends Top Album...
-            $("#popular-album").empty().append(`
+		});
+	}
 
-                <li class="py-2" id="popular-album">Most Popular Album:              
-                    <a class="text-dark" href="${response.topalbums.album[0].url}" target="_blank">${response.topalbums.album[0].name}</a>
-                </li>
+	function getSimilarArtists(artist) {
+		
+		var queryURL = "http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=" + artist + LastFmAPIkey;
+	
+		$.ajax({
+			url: queryURL,
+			method: "GET"
+		})
+		.then(function (response) {
+			similarArtists.empty();
+			similarArtists.text("Similar Artists: ");
 
-            `);
+			var maxNum = 3;
+			for (let i = 0; i < maxNum; i++) {
 
-            // 3rd Call to Last.FM API to obtain Similar Artists
-            var queryURL =
-              "http://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=" +
-              artist +
-              "&api_key=b69d917e3739d4f7f4894f4b185cd0db&format=json";
+				var similar = $("<a>");
+				similar.attr("href", response.similarartists.artist[i].url);
+				similar.text(response.similarartists.artist[i].name);
 
-            $.ajax({
-              url: queryURL,
-              method: "POST",
-            })
-              .then(function (response) {
-                // Appends Similar Artists...
-                $("#similar-artists").empty().append(`
-                
-                    <li class="py-2" id="similar-artists">Similar Artists:
-                        <a class="text-dark" href="${response.similarartists.artist[0].url}">${response.similarartists.artist[0].name}</a>,
-                        <a class="text-dark" href="${response.similarartists.artist[1].url}">${response.similarartists.artist[1].name}</a>,
-                        <a class="text-dark" href="${response.similarartists.artist[2].url}">${response.similarartists.artist[2].name}</a>
-                    </li>
+				if (i != maxNum - 1) similar.append(", ");
 
-                `);
-              })
-              .catch(function (error) {
-                console.log(error);
-              });
-          })
-          .catch(function (error) {
-            console.log(error);
-          });
-      })
-      .catch(function (error) {
-        // display error
-        console.log(error);
-      });
-  }
+				similarArtists.append(similar);
+			}
+		});
+	}
 
-  function displayEventInfo(event) {
-    // display the info for the given event
-  }
+	function addArtistInfo(artist) {
+		var queryURL = "http://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=" + artist + LastFmAPIkey;
 
-  function addAllEvents(artist) {
-    var queryURL = "";
+		$.ajax({
+			url: queryURL,
+			method: "GET"
+		})
+		.then(function (response) {
+			artistName.text(response.toptracks.track[0].artist.name);
 
-    $.ajax({
-      url: queryURL,
-      method: "GET",
-    })
-      .then(function (response) {
-        // display 5 upcoming events in the div
+			popularSong.empty();
+			popularSong.text("Most Popular Song: ");
 
-        // display the event info for the first event
-        displayEventInfo(firstEvent);
-      })
-      .catch(function (error) {
-        // display error
-      });
-  }
+			var songTitle = $("<a>");
+			songTitle.attr("href", response.toptracks.track[0].url);
+			songTitle.text(response.toptracks.track[0].name);
+			popularSong.append(songTitle);
+			
+			topSongs.empty();
+			topSongs.text("More Top Songs: ");
 
-  function displayArtist(artist) {
-    // display the information for that artist
-    addArtistInfo(artist);
+			var maxNum = 4;
+			for (let i = 1; i < 4; i++) {
+				var song = $("<a>");
+				song.attr("href", response.toptracks.track[i].url);
+				song.text(response.toptracks.track[i].name);
 
-    // display five upcoming events for that artist
-    addAllEvents(artist);
-  }
+				if (i != maxNum - 1) song.append(", ");
 
-  function updateRecentlySearched() {
-    // update the recently searched list and display the new list
-    // store the new recently searched list to localStorage
-  }
+				topSongs.append(song);
+			}
 
-  function enableSearchBar() {
-    searchBtn.click(function (e) {
-      e.preventDefault();
-      // get the artist's name from the user input
-      var artistName = searchBar.val();
-      //   console.log(artistName);
+			getArtistAlbum(artist);
 
-      // display information and events for the searched artist
-      displayArtist(artistName);
+			getSimilarArtists(artist);
+		});
+	}
 
-      // update the list of recently searched artists
-      updateRecentlySearched(artistName);
-    });
-  }
+	function displayEvent(event) {
+		upcomingDate.text("Event Date: " + moment(event.datetime, 'YYYY-MM-DDTHH:mm:ss').format('L LT'));
+		upcomingLocation.text("Event Venue: " + event.venue.name);
 
-  //   function enableEventDisplay() {
-  //     // for each of the events in All Events
-  //     allEventsDates.each(function (event) {
-  //       // enable them to be clicked to show the information for that specific date
-  //       event.click(function () {
-  //         displayEventInfo(this);
-  //       });
-  //     });
-  //   }
+		if (event.venue.location) upcomingAddress.text("Event Location: " + event.venue.location);
+		else upcomingAddress.text("Event Location: " + event.venue.city + ", " + event.venue.country);
 
-  function addRecentlySearched() {
-    // if there is a recently searched list in localStorage, display that
-    // else display a default recently searched list
-  }
+		if (event.offers[0].status === "available") {
+			console.log("There are tickets available!!!");
 
-  //   function enableRecentlySearched() {
-  //     // for each of the artists in the Recently Searched
-  //     recentlySearched.each(function (artist) {
-  //       // enable them to be clicked to show the information and events for that specific artist
-  //       artist.click(function () {
-  //         displayArtist(this);
-  //       });
-  //     });
-  //   }
+			var ticketLink = $("<a>");
+			ticketLink.attr("href", event.offers[0].url);
+			ticketLink.text("Ticket");
 
-  function addMostPopular() {
-    // create a list of most popular artists
-  }
+			upcomingTicket.text("Ticket Link: ");
+			upcomingTicket.append(ticketLink);
+		}
 
-  //   function enableMostPopular() {
-  //     // for each of the artists in the Most Popular
-  //     mostPopular.each(function (artist) {
-  //       // enable them to be clicked to show the information and events for that specific artist
-  //       artist.click(function () {
-  //         displayArtist(this);
-  //       });
-  //     });
-  //   }
+		else {
+			console.log("There are no tickets available! :(");
+		}
+	}
 
-  //--------------------------------------------------------------
+	function addAllEvents(artist) {
 
-  function main() {
-    // enable search bar functionality
-    enableSearchBar();
+		var queryURL = "https://rest.bandsintown.com/artists/" + artist + BitAPIKey;
 
-    // enable event dates to be clicked
-    // enableEventDisplay();
+		$.ajax({
+			url: queryURL,
+			method: "GET"
+		})
+		.then(function (response) {
+			if (response.length === 0) {
+				console.log("There are no events.");
+				allEventsDates.text("No Events Coming Up...");
+			}
 
-    // add the recently searched artists to the display
-    addRecentlySearched();
+			for (let i = 0; i < 5; i++) {
+				var eventDate = $("<li>");
+				eventDate.addClass("py-2")
+				eventDate.text(moment(response[i].datetime, 'YYYY-MM-DDTHH:mm:ss').format('L'));
+				allEventsDates.append(eventDate);
+			}
 
-    // enable the list of recently searched artists to be clicked
-    // enableRecentlySearched();
+			displayEvent(response[0]);
+		});
+	}
 
-    // add the most popular artists to the display
-    addMostPopular();
+	function displayArtist(artist) {
+		addArtistInfo(artist);
 
-    // enable the list of most popular artist to be clicked
-    // enableMostPopular();
-  }
+		addAllEvents(artist);
+	}
 
-  main();
+	function enableSearchBar() {
+		searchBtn.click(function (event) {
+			event.preventDefault();
+
+			var artistName = searchBar.val();
+
+			displayArtist(artistName);
+
+			// updateRecentlySearched(artistName);
+		});
+	}
+
+	//--------------------------------------------------------------
+
+	function main() {
+		console.clear();
+
+		enableSearchBar();
+
+		// enableEventDisplay();
+	}
+
+	main();
 });
