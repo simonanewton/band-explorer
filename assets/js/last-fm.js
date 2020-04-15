@@ -24,6 +24,9 @@ function searchTopTracks(artist) {
       console.log(err);
     });
 }
+function myCallBack() {
+  
+}
 
 function searchTopAlbum(artist) {
   var apiKey = "b69d917e3739d4f7f4894f4b185cd0db";
@@ -33,6 +36,8 @@ function searchTopAlbum(artist) {
     "&api_key=" +
     apiKey +
     "&format=json";
+    +"myCallBack";
+
 
   $.ajax({
     url: queryURL,
@@ -47,6 +52,7 @@ function searchTopAlbum(artist) {
           <img src="${response.topalbums.album[0].image[3]}">
           `);
           console.log(response);
+          console.log(response.topalbums.album[0].image[3].#text)
     })
     .catch(function (err) {
       console.log(err);

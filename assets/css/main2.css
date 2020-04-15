@@ -1,0 +1,41 @@
+body {
+    font-family: 'Rubik', sans-serif;
+    /*background-image: url(https://media.defense.gov/2019/Oct/22/2002198479/-1/-1/0/190915-M-CJ305-1251.JPG);*/
+}
+
+#nav-header li:hover {
+    text-decoration: underline;
+}
+
+.most-searched li {
+    display: inline-block;
+}
+
+.most-searched li:after { 
+    content: " \00b7"; 
+}
+
+.most-searched li:last-child:after { 
+    content: none; 
+}
+
+.most-searched li:hover {
+    text-decoration: underline;
+}
+.head {
+    background-color: rgb(228, 171, 50);
+    color: rgb(0, 0, 0);
+    font-family: 'Miriam Libre', sans-serif;
+}
+.search{
+    font-family: 'Rubik', sans-serif;
+    float: right;
+}
+.py-2{
+    font-weight: 900;
+}
+.content{
+    background-color: rgb(228, 171, 50);
+    border-radius: 10px;
+    align-items: center;
+}

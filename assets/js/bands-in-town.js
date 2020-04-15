@@ -32,9 +32,11 @@ function displayEvents(artist) {
         // console.log("Latitude: " + venueLat);
         // console.log("Longitude: " + venueLon);
         $("#artist-events").append(`
+            <img src = "${response[i].artist.image_url}">
             <ul>
-              <li data-name="${response[i].lineup[0]}"> ${eventDate} ${response[i].venue.city}, ${venueLocation}</li>
+              <li data-name="${response[i].lineup[0]}"> ${eventDate}, ${response[i].venue.city}, ${venueLocation}</li>
             </ul>
+            ${response}
             `);
       }
       // Displaying upcoming event
