@@ -98,6 +98,8 @@ $(document).ready(function () {
 			url: queryURL,
 			method: "GET"
 		}).then(function (response) {
+			console.log(response);
+
 			artistName.text(response.toptracks.track[0].artist.name);
 
 			popularSong.empty();
@@ -236,14 +238,18 @@ $(document).ready(function () {
 	function addRecentlySearched() {
 		recentArtists = JSON.parse(localStorage.getItem("recentArtists"));
 
-		if (!recentArtists) recentArtists = ["The Weeknd", "Dua Lipa", "Billie Eilish", 
-		"Kanye West", "Drake", "Childish Gambino", "Tame Impala", "Doja Cat", "The Beatles", 
-		"Post Malone", "Ariana Grande", "Lana Del Rey", "Lady Gaga", "Radiohead", "Frank Ocean"]
+		if (!recentArtists) recentArtists = ["The Weeknd", "Dua Lipa", "Billie Eilish", "Kanye West", "Drake", "Childish Gambino", 
+		"Tame Impala", "Doja Cat", "The Beatles", "Post Malone", "Ariana Grande", "Lana Del Rey", "Lady Gaga", "Radiohead", "Frank Ocean"];
 
 		recentlySearched.empty();
 
 		for (let i = 0; i < recentArtists.length; i++) {
 			var artistName = $("<li>").text(recentArtists[i]);
+
+			artistName.click(function () {
+				displayArtist($(this).text());
+			});
+
 			recentlySearched.append(artistName);
 		}
 	}
@@ -270,27 +276,43 @@ $(document).ready(function () {
 	}
 
 	function addMostPopular() {
-		var queryURL = `https://ws.audioscrobbler.com/2.0/?method=chart.gettopartists&api_key=${LastFmAPIkey}&format=json`;
+		var queryURL = `https://ws.audioscrobbler.com/2.0/?method=chart.gettopartists&limit=15&api_key=${LastFmAPIkey}&format=json`;
 
 		$.ajax({
 			url: queryURL,
 			method: "GET"
 		}).then(function (response) {
 			var mostPopularArray = response.artists.artist;
-			mostPopularArray.length = 15;
 
 			for (let i = 0; i < mostPopularArray.length; i++) {
 				var artistLi = $("<li>").text(mostPopularArray[i].name);
+
+				artistLi.click(function () {
+					displayArtist($(this).text());
+				});
+
 				mostPopular.append(artistLi);
 			}
 		});
+	}
+
+	function toggleShowDiv(div) {
+		var targetDiv = $(div);
+
+		if (targetDiv.hasClass("d-none")) {
+			targetDiv.removeClass("d-none");
+		}
+
+		else {
+			targetDiv.addClass("d-none");
+		}
 	}
 
 	//--------------------------------------------------------------
 
 	function main() {
 		// localStorage.clear();
-		// console.clear();
+		console.clear();
 
 		enableSearchBar();
 
