@@ -7,8 +7,13 @@ body {
     text-decoration: underline;
 }
 
-#artist-info ul li a {
+#artist-info li a {
     color: black;
+}
+
+#all-events-dates li:hover {
+    cursor: pointer;
+    text-decoration: underline;
 }
 
 .artist-display li {
@@ -16,7 +21,7 @@ body {
 }
 
 .artist-display li:after { 
-    content: "\00b7"; 
+    content: "\00a0 \00b7 \00a0"; 
 }
 
 .artist-display li:last-child:after { 
