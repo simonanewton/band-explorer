@@ -98,8 +98,6 @@ $(document).ready(function () {
 			url: queryURL,
 			method: "GET"
 		}).then(function (response) {
-			console.log(response);
-
 			artistName.text(response.toptracks.track[0].artist.name);
 
 			popularSong.empty();
@@ -152,6 +150,8 @@ $(document).ready(function () {
 	}
 
 	function displayEvent(event) {
+		console.log(event);
+
 		upcomingMap.empty();
 
 		if (!event) {
@@ -296,17 +296,17 @@ $(document).ready(function () {
 		});
 	}
 
-	function toggleShowDiv(div) {
-		var targetDiv = $(div);
+	// function toggleShowDiv(div) {
+	// 	var targetDiv = $(div);
 
-		if (targetDiv.hasClass("d-none")) {
-			targetDiv.removeClass("d-none");
-		}
+	// 	if (targetDiv.hasClass("d-none")) {
+	// 		targetDiv.removeClass("d-none");
+	// 	}
 
-		else {
-			targetDiv.addClass("d-none");
-		}
-	}
+	// 	else {
+	// 		targetDiv.addClass("d-none");
+	// 	}
+	// }
 
 	//--------------------------------------------------------------
 
@@ -321,7 +321,7 @@ $(document).ready(function () {
 		addMostPopular();
 
 		setTimeout(function () {
-			displayArtist("Tame Impala");
+			displayArtist(recentArtists[0]);
 		}, 500);
 	}
 
