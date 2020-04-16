@@ -17,6 +17,9 @@ $(document).ready(function () {
 	var upcomingTicket = $("#upcoming-ticket");
 	var upcomingMap = $("#upcoming-map");
 
+	var recentlySearched = $("#recently-searched");
+	var mostPopular = $("#most-popular");
+
 	var LastFmAPIkey = "b69d917e3739d4f7f4894f4b185cd0db";
 	var BitAPIKey = "codingbootcamp";
 	var googleAPIkey = "AIzaSyDfIFu3PbrI9vo2erKF8HsMTOvCV3lNB4M";
@@ -24,7 +27,6 @@ $(document).ready(function () {
 	//--------------------------------------------------------------
 
 	function getArtistAlbum(artist) {
-		// var artistName = artist.replace(/\s/g, '%20');
 		var queryURL = `https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=${artist}&api_key=${LastFmAPIkey}&format=json`
 
 		$.ajax({
@@ -46,7 +48,6 @@ $(document).ready(function () {
 	}
 
 	function getSimilarArtists(artist) {
-		// var artistName = artist.replace(/\s/g, '%20');
 		var queryURL = `https://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=${artist}&api_key=${LastFmAPIkey}&format=json`
 
 		$.ajax({
@@ -72,7 +73,6 @@ $(document).ready(function () {
 	}
 
 	function addArtistInfo(artist) {
-		// var artistName = artist.replace(/\s/g, '%20');
 		var queryURL = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=${artist}&api_key=${LastFmAPIkey}&format=json`
 
 		$.ajax({
@@ -231,11 +231,38 @@ $(document).ready(function () {
 	function enableSearchBar() {
 		searchBtn.click(function (event) {
 			event.preventDefault();
-
-			var artistName = searchBar.val();
-
-			displayArtist(artistName);
+			displayArtist(searchBar.val());
 		});
+	}
+
+	function addRecentlySearched() {
+		// add a list of recently searched artists
+	}
+
+	function addMostPopular() {
+		var queryURL = "";
+
+		$.ajax({
+			url: queryURL,
+			method: "GET"
+		}).then(function (response) {
+			// set variable equal to an array of most popular artists
+			var mostPopularArray;
+
+			// set array length to 15
+			mostPopularArray.length = 15;
+		});
+
+		for (let i = 0; i < mostPopularArray.length; i++) {
+			var artistLi = $("<li>");
+			artistLi.text(mostPopularArray[i]);
+
+			artistLi.click(function () {
+				displayArtist(artistLi.text());
+			});
+
+			mostPopular.append(artistLi);
+		}
 	}
 
 	//--------------------------------------------------------------
@@ -244,6 +271,10 @@ $(document).ready(function () {
 		console.clear();
 
 		enableSearchBar();
+
+		// addRecentlySearched();
+
+		// addMostPopular();
 	}
 
 	main();

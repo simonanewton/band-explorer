@@ -11,29 +11,19 @@ body {
     color: black;
 }
 
-.most-searched li {
+.artist-display li {
     display: inline-block;
 }
 
-.most-searched li:after { 
-    content: " \00b7"; 
+.artist-display li:after { 
+    content: "\00b7"; 
 }
 
-.most-searched li:last-child:after { 
+.artist-display li:last-child:after { 
     content: none; 
 }
 
-.most-searched li:hover {
+.artist-display li:hover {
+    cursor: pointer;
     text-decoration: underline;
-}
-
-.box{
-    display: none;
-    width: 100%;
-}
-
-a:hover + .box, .box:hover{
-    display: block;
-    position: relative;
-    z-index: 100;
 }
