@@ -17,14 +17,15 @@ $(document).ready(function () {
 	var upcomingTicket = $("#upcoming-ticket");
 	var upcomingMap = $("#upcoming-map");
 
-	var LastFmAPIkey = "&api_key=b69d917e3739d4f7f4894f4b185cd0db&format=json";
-	var BitAPIKey = "/events?app_id=codingbootcamp";
+	var LastFmAPIkey = "b69d917e3739d4f7f4894f4b185cd0db";
+	var BitAPIKey = "codingbootcamp";
+	var googleAPIkey = "AIzaSyDfIFu3PbrI9vo2erKF8HsMTOvCV3lNB4M";
 
 	//--------------------------------------------------------------
 
 	function getArtistAlbum(artist) {
-
-		var queryURL = "https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=" + artist + LastFmAPIkey;
+		// var artistName = artist.replace(/\s/g, '%20');
+		var queryURL = `https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=${artist}&api_key=${LastFmAPIkey}&format=json`
 
 		$.ajax({
 			url: queryURL,
@@ -45,75 +46,73 @@ $(document).ready(function () {
 	}
 
 	function getSimilarArtists(artist) {
-
-		var queryURL = "https://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=" + artist + LastFmAPIkey;
+		// var artistName = artist.replace(/\s/g, '%20');
+		var queryURL = `https://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=${artist}&api_key=${LastFmAPIkey}&format=json`
 
 		$.ajax({
 			url: queryURL,
 			method: "GET"
-		})
-			.then(function (response) {
-				similarArtists.empty();
-				similarArtists.text("Similar Artists: ");
+		}).then(function (response) {
+			similarArtists.empty();
+			similarArtists.text("Similar Artists: ");
 
-				var maxNum = 3;
-				for (let i = 0; i < maxNum; i++) {
+			var maxNum = 3;
+			for (let i = 0; i < maxNum; i++) {
 
-					var similar = $("<a>");
-					similar.attr("href", response.similarartists.artist[i].url);
-					similar.attr("target", "_blank");
-					similar.text(response.similarartists.artist[i].name);
+				var similar = $("<a>");
+				similar.attr("href", response.similarartists.artist[i].url);
+				similar.attr("target", "_blank");
+				similar.text(response.similarartists.artist[i].name);
 
-					if (i != maxNum - 1) similar.append(", ");
+				if (i != maxNum - 1) similar.append(", ");
 
-					similarArtists.append(similar);
-				}
-			});
+				similarArtists.append(similar);
+			}
+		});
 	}
 
 	function addArtistInfo(artist) {
-		var queryURL = "https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=" + artist + LastFmAPIkey;
+		// var artistName = artist.replace(/\s/g, '%20');
+		var queryURL = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=${artist}&api_key=${LastFmAPIkey}&format=json`
 
 		$.ajax({
 			url: queryURL,
 			method: "GET"
-		})
-			.then(function (response) {
-				artistName.text(response.toptracks.track[0].artist.name);
+		}).then(function (response) {
+			artistName.text(response.toptracks.track[0].artist.name);
 
-				popularSong.empty();
-				popularSong.text("Most Popular Song: ");
+			popularSong.empty();
+			popularSong.text("Most Popular Song: ");
 
-				var songTitle = $("<a>");
-				songTitle.attr("href", response.toptracks.track[0].url);
-				songTitle.attr("target", "_blank");
-				songTitle.text(response.toptracks.track[0].name);
-				popularSong.append(songTitle);
+			var songTitle = $("<a>");
+			songTitle.attr("href", response.toptracks.track[0].url);
+			songTitle.attr("target", "_blank");
+			songTitle.text(response.toptracks.track[0].name);
+			popularSong.append(songTitle);
 
-				topSongs.empty();
-				topSongs.text("More Top Songs: ");
+			topSongs.empty();
+			topSongs.text("More Top Songs: ");
 
-				var maxNum = 4;
-				for (let i = 1; i < 4; i++) {
-					var song = $("<a>");
-					song.attr("href", response.toptracks.track[i].url);
-					song.attr("target", "_blank");
-					song.text(response.toptracks.track[i].name);
+			var maxNum = 4;
+			for (let i = 1; i < 4; i++) {
+				var song = $("<a>");
+				song.attr("href", response.toptracks.track[i].url);
+				song.attr("target", "_blank");
+				song.text(response.toptracks.track[i].name);
 
-					if (i != maxNum - 1) song.append(", ");
+				if (i != maxNum - 1) song.append(", ");
 
-					topSongs.append(song);
-				}
+				topSongs.append(song);
+			}
 
-				getArtistAlbum(artist);
+			getArtistAlbum(artist);
 
-				getSimilarArtists(artist);
-			});
+			getSimilarArtists(artist);
+		});
 	}
 
 	function addEventMap(eventVenue) {
 		var venueName = eventVenue.replace(/\s/g, '+');
-		var googleAPIkey = "AIzaSyDfIFu3PbrI9vo2erKF8HsMTOvCV3lNB4M";
 		var queryURL = `https://www.google.com/maps/embed/v1/search?q=${venueName}&key=${googleAPIkey}`;
 
 		var eventMap = $("<iframe>");
@@ -156,6 +155,8 @@ $(document).ready(function () {
 
 			if (event.offers[0].status === "available") {
 				console.log("There are tickets available!!!");
+				console.log("Ticket URL:");
+				console.log(event);
 
 				var ticketLink = $("<a>");
 				ticketLink.addClass("btn btn-primary py-1");
@@ -176,51 +177,49 @@ $(document).ready(function () {
 	}
 
 	function addAllEvents(artist) {
-
-		var queryURL = "https://rest.bandsintown.com/artists/" + artist + BitAPIKey;
+		var queryURL = `https://rest.bandsintown.com/artists/${artist}/events?app_id=${BitAPIKey}&date=upcoming`
 
 		$.ajax({
 			url: queryURL,
 			method: "GET"
-		})
-			.then(function (response) {
-				allEventsDates.empty();
+		}).then(function (response) {
+			allEventsDates.empty();
 
-				if (response.length === 0) {
-					console.log("There are no events.");
+			if (response.length === 0) {
+				console.log("There are no events.");
+				allEventsDates.removeClass();
+				allEventsDates.addClass("px-0 pt-4 m-0 text-center");
+				allEventsDates.text("No Events Coming Up...");
+
+				var frownyFace = $("<i>");
+				frownyFace.addClass("far fa-frown fa-5x py-4");
+				allEventsDates.append(frownyFace);
+
+				displayEvent(null);
+			}
+
+			else {
+				console.log("There are events.");
+
+				if (response.length > 5) response.length = 5;
+
+				for (let i = 0; i < response.length; i++) {
+					var eventDate = $("<li>");
+					eventDate.addClass("py-2");
+					eventDate.text(moment(response[i].datetime, 'YYYY-MM-DDTHH:mm:ss').format('L') + ` (${response[i].venue.city})`);
+
+					// eventDate.click(function() {
+					// 	displayEvent(response[i]);
+					// });
+
+					allEventsDates.append(eventDate);
 					allEventsDates.removeClass();
-					allEventsDates.addClass("px-0 pt-4 m-0 text-center");
-					allEventsDates.text("No Events Coming Up...");
-
-					var frownyFace = $("<i>");
-					frownyFace.addClass("far fa-frown fa-5x py-4");
-					allEventsDates.append(frownyFace);
-
-					displayEvent(null);
+					allEventsDates.addClass("px-3 py-2 m-0");
 				}
 
-				else {
-					console.log("There are events.");
-
-					if (response.length > 5) response.length = 5;
-
-					for (let i = 0; i < response.length; i++) {
-						var eventDate = $("<li>");
-						eventDate.addClass("py-2");
-						eventDate.text(moment(response[i].datetime, 'YYYY-MM-DDTHH:mm:ss').format('L') + ` (${response[i].venue.city})`);
-
-						// eventDate.click(function() {
-						// 	displayEvent(response[i]);
-						// });
-
-						allEventsDates.append(eventDate);
-						allEventsDates.removeClass();
-						allEventsDates.addClass("px-3 py-2 m-0");
-					}
-
-					displayEvent(response[0]);
-				}
-			});
+				displayEvent(response[0]);
+			}
+		});
 	}
 
 	function displayArtist(artist) {
@@ -236,8 +235,6 @@ $(document).ready(function () {
 			var artistName = searchBar.val();
 
 			displayArtist(artistName);
-
-			// updateRecentlySearched(artistName);
 		});
 	}
 
@@ -247,8 +244,6 @@ $(document).ready(function () {
 		console.clear();
 
 		enableSearchBar();
-
-		// enableEventDisplay();
 	}
 
 	main();
