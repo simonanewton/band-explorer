@@ -7,10 +7,6 @@ body {
     text-decoration: underline;
 }
 
-/* #artist-info ul {
-    text-decoration: underline;
-} */
-
 #artist-info ul li a {
     color: black;
 }
@@ -29,4 +25,15 @@ body {
 
 .most-searched li:hover {
     text-decoration: underline;
+}
+
+.box{
+    display: none;
+    width: 100%;
+}
+
+a:hover + .box, .box:hover{
+    display: block;
+    position: relative;
+    z-index: 100;
 }

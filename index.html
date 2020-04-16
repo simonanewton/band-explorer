@@ -62,22 +62,27 @@
 
 		<!-- Artist Information and All Events -->
 		<div class="row">
-			<div class="col p-4 m-3 bg-light border border-dark rounded align-items-center" id="artist-info">
-				<h3 class="py-2 pr-2 d-inline-block" style="text-decoration: underline;">Artist Name:</h3>
-				<h3 class="py-2 d-inline-block" id="artist-name"></h3>
+			<div class="col p-4 m-3 bg-light border border-dark rounded d-flex">
+				<div class="col p-0" id="artist-info">
+					<h3 class="py-2 pr-2 d-inline-block" style="text-decoration: underline;">Artist Name:</h3>
+					<h3 class="py-2 d-inline-block" id="artist-name"></h3>
 
-				<ul class="p-0 m-0" style="list-style-type: none;">
-					<li class="py-3" id="popular-song">Most Popular Song:</li>
-					<li class="py-3" id="popular-album">Most Popular Album:</li>
-					<li class="py-3" id="top-songs">More Top Songs:</li>
-					<li class="py-3" id="similar-artists">Similar Artists:</li>
-				</ul>
+					<ul class="p-0 m-0" style="list-style-type: none;">
+						<li class="py-3" id="popular-song">Most Popular Song:</li>
+						<li class="py-3" id="popular-album">Most Popular Album:</li>
+						<li class="py-3" id="top-songs">More Top Songs:</li>
+						<li class="py-3" id="similar-artists">Similar Artists:</li>
+					</ul>
+				</div>
+
+				<div class="col-5 p-0 ml-3 border border-dark border-dark" id="artist-image"></div>
 			</div>
 
 			<div class="col-3 p-4 mr-3 my-3 bg-light border border-dark rounded">
 				<h3 class="py-2" style="text-decoration: underline;">All Events:</h3>
 
-				<ul class="px-3 m-0" id="all-events-dates"></ul>
+				<ul id="all-events-dates"></ul>
+				<!-- <div class="overflow-auto"></div> -->
 			</div>
 		</div>
 
@@ -89,14 +94,13 @@
 
 					<ul class="p-0 m-0" style="list-style-type: none;">
 						<li class="py-2" id="upcoming-date">Event Date:</li>
+						<li class="py-2" id="upcoming-venue">Event Venue:</li>
 						<li class="py-2" id="upcoming-location">Event Location:</li>
-						<li class="py-2" id="upcoming-address">Event Address:</li>
 						<li class="py-2" id="upcoming-ticket">Ticket Link:</li>
 					</ul>
 				</div>
 
-				<div class="col text-center border border-dark" id="event-map">
-				</div>
+				<div class="col-5 p-0 border border-secondary" id="upcoming-map"></div>
 			</div>
 		</div>
 
@@ -182,7 +186,6 @@
 	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
 
 	<!-- Javascript Links -->
-	<script src="./assets/js/bands-in-town.js"></script>
 	<script src="./assets/js/main.js"></script>
 </body>
 
