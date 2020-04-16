@@ -21,7 +21,7 @@ body {
 }
 
 .artist-display li:after { 
-    content: "\00a0 \00b7 \00a0"; 
+    content: "\00a0 \00b7 \00a0";
 }
 
 .artist-display li:last-child:after { 
