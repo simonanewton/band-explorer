@@ -15,7 +15,7 @@ body {
 
 #all-events-dates {
     height: 260px;
-    overflow-y: scroll;
+    overflow-y: auto;
 }
 
 #all-events-dates li:hover {
@@ -38,7 +38,4 @@ body {
 .artist-display li:hover {
     cursor: pointer;
     text-decoration: underline;
-}
-img {
-    max-width: 100;
 }

@@ -168,10 +168,15 @@ $(document).ready(function () {
 			upcomingDate.text("Event Date: " + moment(event.datetime, 'YYYY-MM-DDTHH:mm:ss').format('L LT'));
 			upcomingVenue.text("Event Venue: " + event.venue.name);
 
-			if (!event.venue.location) upcomingLocation.text("Event Location: " + event.venue.city + ", " + event.venue.country);
+			if (!event.venue.location && !event.venue.city) upcomingLocation.text("Event Location: Online");
+			else if (!event.venue.location) upcomingLocation.text("Event Location: " + event.venue.city + ", " + event.venue.country);
 			else upcomingLocation.text("Event Location: " + event.venue.location);
 
-			if (event.offers[0].status === "available") {
+			if (!event.offers.length) {
+				upcomingTicket.text("Ticket Link: N/A");
+			}
+
+			else {
 				var ticketLink = $("<a>");
 				ticketLink.addClass("btn btn-primary py-1 ml-1");
 				ticketLink.attr("href", event.offers[0].url);
@@ -182,9 +187,15 @@ $(document).ready(function () {
 				upcomingTicket.append(ticketLink);
 			}
 
-			else upcomingTicket.text("Ticket Link: N/A");
+			if (!event.venue.location) {
+				var noEvent = $("<p>").text("Live Stream Event").addClass("py-2")
+				var globe = $("<i>").addClass("fas fa-globe fa-5x py-2");
+	
+				upcomingMap.removeClass("p-0").addClass("p-4 text-center");
+				upcomingMap.append(noEvent, globe);
+			}
 
-			addEventMap(event.venue.latitude, event.venue.longitude);
+			else addEventMap(event.venue.latitude, event.venue.longitude);
 		}
 	}
 
@@ -213,7 +224,9 @@ $(document).ready(function () {
 				for (let i = 0; i < response.length; i++) {
 					var eventDate = $("<li>");
 					eventDate.addClass("py-2");
-					eventDate.text(`${moment(response[i].datetime, 'YYYY-MM-DDTHH:mm:ss').format('L')} (${response[i].venue.city})`);
+					
+					var eventCity = (response[i].venue.city) ? response[i].venue.city : "Stream";
+					eventDate.text(`${moment(response[i].datetime, 'YYYY-MM-DDTHH:mm:ss').format('L')} (${eventCity})`);
 					eventDate.attr("index", i);
 
 					eventDate.click(function () {
@@ -256,7 +269,11 @@ $(document).ready(function () {
 
 	function updateRecentlySearched(artist) {
 		recentArtists.unshift(artist);
-		recentArtists.pop();
+
+		var uniqueArtists = [...new Set(recentArtists)];
+        recentArtists = uniqueArtists;
+
+        if (recentArtists.length > 15) recentArtists.pop();
 
 		localStorage.setItem("recentArtists", JSON.stringify(recentArtists));
 
