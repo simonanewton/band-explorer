@@ -32,3 +32,8 @@ body {
     cursor: pointer;
     text-decoration: underline;
 }
+
+#all-events-dates{
+    height: 260px;
+    overflow-y: scroll;
+}
