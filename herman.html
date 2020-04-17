@@ -1,0 +1,131 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+	<meta charset="UTF-8" />
+	<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+	<title>Band Explorer</title>
+
+	<!-- Website Favicon -->
+	<link rel="shortcut icon" type="image/x-icon"
+		href="https://freeiconshop.com/wp-content/uploads/edd/music-quavers-flat.png" />
+
+	<!-- Bootstrap Link -->
+	<link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/css/bootstrap.min.css"
+		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
+
+	<!-- Google Fonts Link -->
+	<link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet" />
+
+	<!-- Font Awesome Link -->
+	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
+		integrity="sha384-50oBUHEmvpQ+1lW4y57PTFmhCaXp0ML5d60M1M7uH2+nqUivzIebhndOJK28anvf" crossorigin="anonymous" />
+	<link href="https://fonts.googleapis.com/css?family=Open+Sans&display=swap" rel="stylesheet" />
+
+	<!-- CSS Stylesheet Link -->
+	<link rel="stylesheet" href="./assets/css/herman.css" />
+</head>
+
+<body>
+	<header class="bg-dark p-4">
+		<h1 class="p-2 m-0 text-white text-center">Band Explorer Website</h1>
+	</header>
+
+	<main class="container my-4 bg-secondary border border-dark rounded">
+		<!-- Search Bar -->
+		<div class="row">
+			<div class="col-sm p-0 mx-3 mt-3 mb-2">
+				<form class="border border-dark rounded d-flex">
+					<input type="text" placeholder="Enter an artist name..." class="border-0 rounded-left p-3 w-100"
+						id="search-bar" />
+					<button type="submit" class="btn btn-primary border-0 rounded-right" id="search-button">
+						<i class="fas fa-search p-1"></i>
+					</button>
+				</form>
+			</div>
+		</div>
+
+		<!-- Artist Information and All Events -->
+		<div class="row">
+			<div class="col-sm p-4 m-3 bg-light border border-dark rounded d-flex">
+				<div class="col-sm p-0" id="artist-info">
+					<h3 class="py-2 pr-2 d-inline-block" style="text-decoration: underline;">Artist Name:</h3>
+					<h3 class="py-2 d-inline-block" id="artist-name"></h3>
+
+					<ul class="p-0 m-0" style="list-style-type: none;">
+						<li class="py-3" id="popular-song">Most Popular Song:</li>
+						<li class="py-3" id="popular-album">Most Popular Album:</li>
+						<li class="py-3" id="top-songs">More Top Songs:</li>
+						<li class="py-3" id="similar-artists">Similar Artists:</li>
+					</ul>
+				</div>
+
+				<div class="col-sm-5 p-0 ml-3 border border-secondary d-flex" id="artist-image"></div>
+			</div>
+
+			<div class="col-sm-3 p-4 ml-3 mr-3 my-3 bg-light border border-dark rounded">
+				<h3 class="py-2" style="text-decoration: underline;">All Events:</h3>
+
+				<div>
+					<ul id="all-events-dates"></ul>
+				</div>
+			</div>
+		</div>
+
+		<!-- Upcoming Event -->
+		 
+		<div class="row">
+			<div class="col-sm p-4 mx-3 mb-3 bg-light border border-dark rounded d-flex">
+				<div class="col p-0">
+					<h3 class="py-2" style="text-decoration: underline;">Upcoming Event:</h3>
+
+					<ul class="p-0 m-0" style="list-style-type: none;">
+						<li class="py-2" id="upcoming-date">Event Date:</li>
+						<li class="py-2" id="upcoming-venue">Event Venue:</li>
+						<li class="py-2" id="upcoming-location">Event Location:</li>
+						<li class="py-2" id="upcoming-ticket">Ticket Link:</li>
+					</ul>
+				</div>
+
+				<div class="col-5 p-0 border border-secondary" id="upcoming-map"></div>
+			</div>
+		</div>
+
+		<!-- Popular and Nearby Artists -->
+		<div class="row d-flex">
+			<div class="col-sm p-4 mx-3 mb-3 bg-light text-center border border-dark rounded" style="font-size: 18px;">
+				<h3 class="py-2" style="text-decoration: underline;">Recently Searched Artists:</h3>
+
+				<ul class="p-0 artist-display" style="list-style-type: none;" id="recently-searched"></ul>
+			</div>
+
+			<div class="col p-4 ml-3 mr-3 mb-3 bg-light text-center border border-dark rounded" style="font-size: 18px;">
+				<h3 class="py-2" style="text-decoration: underline;">Most Popular Artists:</h3>
+
+				<ul class="p-0 artist-display" style="list-style-type: none;" id="most-popular"></ul>
+			</div>
+		</div>
+	</main>
+
+	<!-- Bootstrap Links -->
+	<script src="https://code.jquery.com/jquery-3.4.1.slim.min.js"
+		integrity="sha384-J6qa4849blE2+poT4WnyKhv5vZF5SrPo0iEjwBvKU7imGFAV0wwj1yYfoRSJoZ+n"
+		crossorigin="anonymous"></script>
+	<script src="https://cdn.jsdelivr.net/npm/popper.js@1.16.0/dist/umd/popper.min.js"
+		integrity="sha384-Q6E9RHvbIyZFJoft+2mJbHaEWldlvI9IOYy5n3zV9zzTtmI3UksdQRVvoxMfooAo"
+		crossorigin="anonymous"></script>
+	<script src="https://stackpath.bootstrapcdn.com/bootstrap/4.4.1/js/bootstrap.min.js"
+		integrity="sha384-wfSDF2E50Y2D1uUdj0O3uMBJnjuUD4Ih7YwaYd1iqfktj0Uod8GCExl3Og8ifwB6"
+		crossorigin="anonymous"></script>
+
+	<!-- jQuery Link -->
+	<script src="https://code.jquery.com/jquery-3.4.1.min.js"></script>
+
+	<!-- Moment.js Link -->
+	<script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.24.0/moment.min.js"></script>
+
+	<!-- Javascript Links -->
+	<script src="./assets/js/herman.js"></script>
+</body>
+
+</html>
