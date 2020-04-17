@@ -11,6 +11,11 @@ body {
     color: black;
 }
 
+#all-events-dates {
+    height: 260px;
+    overflow-y: scroll;
+}
+
 #all-events-dates li:hover {
     cursor: pointer;
     text-decoration: underline;

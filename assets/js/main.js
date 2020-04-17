@@ -150,8 +150,6 @@ $(document).ready(function () {
 	}
 
 	function displayEvent(event) {
-		console.log(event);
-
 		upcomingMap.empty();
 
 		if (!event) {
@@ -213,12 +211,15 @@ $(document).ready(function () {
 			}
 
 			else {
-				if (response.length > 6) response.length = 6;
-
 				for (let i = 0; i < response.length; i++) {
 					var eventDate = $("<li>");
 					eventDate.addClass("py-2");
 					eventDate.text(`${moment(response[i].datetime, 'YYYY-MM-DDTHH:mm:ss').format('L')} (${response[i].venue.city})`);
+					eventDate.attr("index", i);
+
+					eventDate.click(function () {
+						displayEvent(response[$(this).attr("index")]);
+					});
 
 					allEventsDates.append(eventDate);
 					allEventsDates.removeClass();
@@ -238,8 +239,8 @@ $(document).ready(function () {
 	function addRecentlySearched() {
 		recentArtists = JSON.parse(localStorage.getItem("recentArtists"));
 
-		if (!recentArtists) recentArtists = ["The Weeknd", "Dua Lipa", "Billie Eilish", "Kanye West", "Drake", "Childish Gambino", 
-		"Tame Impala", "Doja Cat", "The Beatles", "Post Malone", "Ariana Grande", "Lana Del Rey", "Lady Gaga", "Radiohead", "Frank Ocean"];
+		if (!recentArtists) recentArtists = ["The Weeknd", "Dua Lipa", "Billie Eilish", "Kanye West", "Drake", "Childish Gambino",
+			"Tame Impala", "Doja Cat", "The Beatles", "Post Malone", "Ariana Grande", "Lana Del Rey", "Lady Gaga", "Radiohead", "Frank Ocean"];
 
 		recentlySearched.empty();
 
@@ -276,7 +277,7 @@ $(document).ready(function () {
 	}
 
 	function addMostPopular() {
-		var queryURL = `https://ws.audioscrobbler.com/2.0/?method=chart.gettopartists&limit=15&api_key=${LastFmAPIkey}&format=json`;
+		var queryURL = `https://ws.audioscrobbler.com/2.0/?method=chart.gettopartists&api_key=${LastFmAPIkey}&format=json`;
 
 		$.ajax({
 			url: queryURL,
@@ -284,29 +285,32 @@ $(document).ready(function () {
 		}).then(function (response) {
 			var mostPopularArray = response.artists.artist;
 
-			for (let i = 0; i < mostPopularArray.length; i++) {
-				var artistLi = $("<li>").text(mostPopularArray[i].name);
+			var mostPopularValid = [];
 
-				artistLi.click(function () {
-					displayArtist($(this).text());
+			mostPopularArray.forEach(artist => {
+				var artistURL = `https://rest.bandsintown.com/artists/${artist.name}/events?app_id=${BitAPIKey}&date=upcoming`
+
+				$.ajax({
+					url: artistURL,
+					method: "GET"
+				}).then(function (response) {
+					if (response.length != 0 && mostPopularValid.length < 15) mostPopularValid.push(artist);
 				});
+			});
 
-				mostPopular.append(artistLi);
-			}
+			setTimeout(function () {
+				for (let i = 0; i < mostPopularValid.length; i++) {
+					var artistLi = $("<li>").text(mostPopularValid[i].name);
+
+					artistLi.click(function () {
+						displayArtist($(this).text());
+					});
+
+					mostPopular.append(artistLi);
+				}
+			}, 1000);
 		});
 	}
-
-	// function toggleShowDiv(div) {
-	// 	var targetDiv = $(div);
-
-	// 	if (targetDiv.hasClass("d-none")) {
-	// 		targetDiv.removeClass("d-none");
-	// 	}
-
-	// 	else {
-	// 		targetDiv.addClass("d-none");
-	// 	}
-	// }
 
 	//--------------------------------------------------------------
 
