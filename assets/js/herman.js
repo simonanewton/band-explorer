@@ -128,7 +128,9 @@ $(document).ready(function () {
 
 			getSimilarArtists(artist);
 
-			getArtistArtwork(artist);
+            getArtistArtwork(artist);
+            
+            updateRecentlySearched(response.toptracks.track[0].artist.name);
 		});
 	}
 
@@ -238,8 +240,7 @@ $(document).ready(function () {
 	function addRecentlySearched() {
 		recentArtists = JSON.parse(localStorage.getItem("recentArtists"));
 
-		if (!recentArtists) recentArtists = ["The Weeknd", "Dua Lipa", "Billie Eilish", "Kanye West", "Drake", "Childish Gambino",
-			"Tame Impala", "Doja Cat", "The Beatles", "Post Malone", "Ariana Grande", "Lana Del Rey", "Lady Gaga", "Radiohead", "Frank Ocean"];
+		if (!recentArtists) recentArtists = ["The Weeknd", "Dua Lipa", "Billie Eilish", "Kendrick Lamar", "Taylor Swift", "The Strokes", "Tame Impala", "Doja Cat", "Khruangbin", "Post Malone", "Ariana Grande", "Lana Del Rey", "Lady Gaga", "Mac DeMarco", "Frank Ocean"];
 
 		recentlySearched.empty();
 
@@ -282,7 +283,6 @@ $(document).ready(function () {
 		searchBtn.click(function (event) {
 			event.preventDefault();
 			displayArtist(searchBar.val());
-			updateRecentlySearched(searchBar.val());
 		});
 	}
 
