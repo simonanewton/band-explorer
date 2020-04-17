@@ -132,9 +132,8 @@ $(document).ready(function () {
 		});
 	}
 
-	function addEventMap(eventVenue) {
-		var venueName = eventVenue.replace(/\s/g, '+');
-		var queryURL = `https://www.google.com/maps/embed/v1/search?q=${venueName}&key=${googleAPIkey}`;
+	function addEventMap(latitude, longitude) {
+		var queryURL = `https://www.google.com/maps/embed/v1/search?q=${latitude},${longitude}&key=${googleAPIkey}`;
 
 		var eventMap = $("<iframe>");
 		eventMap.attr({
@@ -185,7 +184,7 @@ $(document).ready(function () {
 
 			else upcomingTicket.text("Ticket Link: N/A");
 
-			addEventMap(event.venue.name);
+			addEventMap(event.venue.latitude, event.venue.longitude);
 		}
 	}
 
