@@ -15,7 +15,7 @@
 		integrity="sha384-Vkoo8x4CGsO3+Hhxv8T/Q5PaXtkKtu6ug5TOeNV6gBiFeWPGFN9MuhOf23Q9Ifjh" crossorigin="anonymous" />
 
 	<!-- Google Fonts Link -->
-	<link href="https://fonts.googleapis.com/css2?family=Rubik&display=swap" rel="stylesheet" />
+	<link href="https://fonts.googleapis.com/css2?family=Miriam+Libre&family=Rubik&display=swap" rel="stylesheet">
 
 	<!-- Font Awesome Link -->
 	<link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.8.1/css/all.css"
@@ -27,11 +27,11 @@
 </head>
 
 <body>
-	<header class="bg-dark p-4">
-		<h1 class="p-2 m-0 text-white text-center">Band Explorer Website</h1>
+	<header>
+		<h1>Band Explorer Website</h1>
 	</header>
 
-	<main class="container my-4 bg-secondary border border-dark rounded">
+	<main class="container mb-4">
 		<!-- Search Bar -->
 		<div class="row">
 			<div class="col-sm p-0 mx-3 mt-3 mb-2">
@@ -45,87 +45,89 @@
 			</div>
 		</div>
 
-		<!-- Artist Information and All Events -->
-		<div class="row">
-			<div class="col-sm p-4 m-3 bg-light border border-dark rounded d-flex">
-				<div class="col-sm p-0" id="artist-info">
-					<h3 class="py-2 pr-2 d-inline-block" style="text-decoration: underline;">Artist Name:</h3>
-					<h3 class="py-2 d-inline-block" id="artist-name"></h3>
+		<div id="result">
+			<!-- Artist Information and All Events -->
+			<div class="row">
+				<div class="col-sm p-4 m-3 bg-light border border-dark rounded d-flex">
+					<div class="col-sm p-0" id="artist-info">
+						<h3 class="py-2 pr-2 d-inline-block" style="text-decoration: underline;">Artist Name:</h3>
+						<h3 class="py-2 d-inline-block" id="artist-name"></h3>
 
-					<ul class="p-0 m-0">
-						<li class="py-3">
-							<p class="m-0 d-inline">Most Popular Song:</p>
-							<a class="m-0 d-inline" id="popular-song"></a>
-						</li>
-						<li class="py-3">
-							<p class="m-0 d-inline">Most Popular Album:</p>
-							<a class="m-0 d-inline" id="popular-album"></a>
-						</li>
-						<li class="py-3">
-							<p class="m-0 d-inline">More Top Songs:</p>
-							<ul class="p-0 m-0 text-wrap d-inline" id="top-songs"></ul>
-						</li>
-						<li class="py-3">
-							<p class="m-0 d-inline">Similar Artists:</p>
-							<ul class="p-0 m-0 d-inline" id="similar-artists"></ul>
-						</li>
-					</ul>
+						<ul class="p-0 m-0">
+							<li class="py-3">
+								<p class="m-0 d-inline">Most Popular Song:</p>
+								<a class="m-0 d-inline" id="popular-song"></a>
+							</li>
+							<li class="py-3">
+								<p class="m-0 d-inline">Most Popular Album:</p>
+								<a class="m-0 d-inline" id="popular-album"></a>
+							</li>
+							<li class="py-3">
+								<p class="m-0 d-inline">More Top Songs:</p>
+								<ul class="p-0 m-0 text-wrap d-inline" id="top-songs"></ul>
+							</li>
+							<li class="py-3">
+								<p class="m-0 d-inline">Similar Artists:</p>
+								<ul class="p-0 m-0 d-inline" id="similar-artists"></ul>
+							</li>
+						</ul>
+					</div>
+
+					<div class="col-5 p-0 ml-4 border border-secondary d-flex" id="artist-image"></div>
 				</div>
 
-				<div class="col-5 p-0 ml-4 border border-secondary d-flex" id="artist-image"></div>
-			</div>
+				<div class="col-sm-3 p-4 mr-3 my-3 bg-light border border-dark rounded">
+					<h3 class="py-2" style="text-decoration: underline;">All Events:</h3>
 
-			<div class="col-sm-3 p-4 mr-3 my-3 bg-light border border-dark rounded">
-				<h3 class="py-2" style="text-decoration: underline;">All Events:</h3>
-
-				<div>
-					<ul id="all-events-dates"></ul>
+					<div>
+						<ul id="all-events-dates"></ul>
+					</div>
 				</div>
 			</div>
-		</div>
 
-		<!-- Upcoming Event -->
-		<div class="row">
-			<div class="col p-4 mx-3 mb-3 bg-light border border-dark rounded d-flex">
-				<div class="col p-0">
-					<h3 class="py-2" style="text-decoration: underline;">Upcoming Event:</h3>
+			<!-- Upcoming Event -->
+			<div class="row">
+				<div class="col p-4 mx-3 mb-3 bg-light border border-dark rounded d-flex">
+					<div class="col p-0">
+						<h3 class="py-2" style="text-decoration: underline;">Upcoming Event:</h3>
 
-					<ul class="p-0 m-0" id="upcoming-event">
-						<li class="py-2">
-							<p class="m-0 d-inline">Event Date:</p>
-							<span class="m-0 d-inline" id="upcoming-date"></span>
-						</li>
-						<li class="py-2">
-							<p class="m-0 d-inline">Event Venue:</p>
-							<span class="m-0 d-inline" id="upcoming-venue"></span>
-						</li>
-						<li class="py-2">
-							<p class="m-0 d-inline">Event Location:</p>
-							<span class="m-0 d-inline" id="upcoming-location"></span>
-						</li>
-						<li class="py-2">
-							<p class="m-0 d-inline">Ticket Link:</p>
-							<a class="m-0 d-inline" id="upcoming-ticket"></a>
-						</li>
-					</ul>
+						<ul class="p-0 m-0" id="upcoming-event">
+							<li class="py-2">
+								<p class="m-0 d-inline">Event Date:</p>
+								<span class="m-0 d-inline" id="upcoming-date"></span>
+							</li>
+							<li class="py-2">
+								<p class="m-0 d-inline">Event Venue:</p>
+								<span class="m-0 d-inline" id="upcoming-venue"></span>
+							</li>
+							<li class="py-2">
+								<p class="m-0 d-inline">Event Location:</p>
+								<span class="m-0 d-inline" id="upcoming-location"></span>
+							</li>
+							<li class="py-2">
+								<p class="m-0 d-inline">Ticket Link:</p>
+								<a class="m-0 d-inline" id="upcoming-ticket"></a>
+							</li>
+						</ul>
+					</div>
+
+					<div class="col-5 p-0 border border-secondary" id="upcoming-map"></div>
+				</div>
+			</div>
+
+			<!-- Popular and Nearby Artists -->
+			<div class="row d-flex">
+				<div class="col p-4 mx-3 mb-3 bg-light text-center border border-dark rounded" style="font-size: 18px;">
+					<h3 class="py-2" style="text-decoration: underline;">Recently Searched Artists:</h3>
+
+					<ul class="p-0 artist-display" style="list-style-type: none;" id="recently-searched"></ul>
 				</div>
 
-				<div class="col-5 p-0 border border-secondary" id="upcoming-map"></div>
-			</div>
-		</div>
+				<div class="col p-4 mr-3 mb-3 bg-light text-center border border-dark rounded" style="font-size: 18px;">
+					<h3 class="py-2" style="text-decoration: underline;">Most Popular Artists:</h3>
 
-		<!-- Popular and Nearby Artists -->
-		<div class="row d-flex">
-			<div class="col p-4 mx-3 mb-3 bg-light text-center border border-dark rounded" style="font-size: 18px;">
-				<h3 class="py-2" style="text-decoration: underline;">Recently Searched Artists:</h3>
-
-				<ul class="p-0 artist-display" style="list-style-type: none;" id="recently-searched"></ul>
-			</div>
-
-			<div class="col p-4 mr-3 mb-3 bg-light text-center border border-dark rounded" style="font-size: 18px;">
-				<h3 class="py-2" style="text-decoration: underline;">Most Popular Artists:</h3>
-
-				<ul class="p-0 artist-display" style="list-style-type: none;" id="most-popular"></ul>
+					<ul class="p-0 artist-display" style="list-style-type: none;" id="most-popular"></ul>
+				</div>
 			</div>
 		</div>
 	</main>

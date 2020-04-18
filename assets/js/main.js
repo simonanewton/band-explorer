@@ -3,6 +3,8 @@ $(document).ready(function () {
 	var searchBar = $("#search-bar");
 	var searchBtn = $("#search-button");
 
+	var result = $("#result");
+
 	var artistName = $("#artist-name");
 	var popularSong = $("#popular-song");
 	var topSongs = $("#top-songs");
@@ -271,6 +273,8 @@ $(document).ready(function () {
 			setTimeout(function () {
 				updateRecentlySearched(artistName.text());
 			}, 500);
+
+			result.slideDown("slow");
 		});
 	}
 
