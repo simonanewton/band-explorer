@@ -2,7 +2,7 @@
 
 ## Description
 
-An interactive application that assists users with finding nearby concerts. This application is a one-stop-shop for music fans looking to attend a live show near them, or any city in the USA. The application displays song recommendations from the concert selected, as well as local weather for that specific date.
+An interactive application that assists users with finding nearby concerts. This application is a one-stop-shop for music fans looking to attend a live show near them, or any city in the USA. The application displays song recommendations from the concert selected.
 
 ## User Story
 
