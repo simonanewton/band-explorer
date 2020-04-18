@@ -76,7 +76,7 @@ $(document).ready(function () {
 
 			if (!response.length) {
 				var emptyArtist = $("<h3>");
-				emptyArtist.addClass("px-0 pt-4 m-0 text-center");
+				emptyArtist.addClass("p-4 m-0");
 				emptyArtist.text("Artist Image Unavailable");
 				 
 				artistImage.append(emptyArtist);
