@@ -82,12 +82,25 @@ $(document).ready(function () {
 			method: "GET",
 		}).then(function (response) {
 			artistImage.empty();
+			console.log(response);
 
-			var artistArtwork = $("<img>");
+			if (!response.length) {
+				var emptyArtist = $("<h3>");
+				emptyArtist.addClass("px-0 pt-4 m-0 text-center");
+				emptyArtist.text("Artist Image Unavailable");
+				 
+				 artistImage.append(emptyArtist);
+
+			} else {
+				var artistArtwork = $("<img>");
 			artistArtwork.attr("src", response[0].artist.thumb_url);
 			artistArtwork.attr("width", "100%");
+			artistArtwork.attr("alt", "Image of " + response[0].artist.name);
 
 			artistImage.append(artistArtwork);
+			}
+
+			
 		});
 	}
 
