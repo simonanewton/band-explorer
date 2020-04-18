@@ -1,5 +1,6 @@
 $(document).ready(function () {
 
+	// Global Variables
 	var searchBar = $("#search-bar");
 	var searchBtn = $("#search-button");
 
@@ -25,12 +26,14 @@ $(document).ready(function () {
 
 	var recentArtists;
 
+	// API Keys
 	var LastFmAPIkey = "b69d917e3739d4f7f4894f4b185cd0db";
 	var BitAPIKey = "codingbootcamp";
 	var googleAPIkey = "AIzaSyDfIFu3PbrI9vo2erKF8HsMTOvCV3lNB4M";
 
 	//--------------------------------------------------------------
 
+	// API Call to get Artist's Top Album
 	function getArtistAlbum(artist) {
 		var queryURL = `https://ws.audioscrobbler.com/2.0/?method=artist.gettopalbums&artist=${artist}&api_key=${LastFmAPIkey}&format=json`
 
@@ -45,6 +48,7 @@ $(document).ready(function () {
 		});
 	}
 
+	// API Call to get artists similar to searched Artist 
 	function getSimilarArtists(artist) {
 		var queryURL = `https://ws.audioscrobbler.com/2.0/?method=artist.getsimilar&artist=${artist}&api_key=${LastFmAPIkey}&format=json`
 
@@ -54,6 +58,7 @@ $(document).ready(function () {
 		}).then(function (response) {
 			similarArtists.empty();
 
+			// Loops through response and displays first 3 similar artists
 			for (let i = 0; i < 3; i++) {
 				var similar = $("<a>");
 				similar.attr("href", response.similarartists.artist[i].url);
@@ -65,6 +70,7 @@ $(document).ready(function () {
 		});
 	}
 
+	// API Call to get Artist image
 	function getArtistArtwork(artist) {
 		var queryURL = `https://rest.bandsintown.com/artists/${artist}/events?app_id=${BitAPIKey}`;
 
@@ -74,24 +80,27 @@ $(document).ready(function () {
 		}).then(function (response) {
 			artistImage.empty();
 
+			// If call returns empty array display...
 			if (!response.length) {
 				var emptyArtist = $("<h3>");
 				emptyArtist.addClass("p-4 m-0");
 				emptyArtist.text("Artist Image Unavailable");
-				 
+
 				artistImage.append(emptyArtist);
 
 			} else {
-			var artistArtwork = $("<img>");
-			artistArtwork.attr("src", response[0].artist.thumb_url);
-			artistArtwork.attr("width", "100%");
-			artistArtwork.attr("alt", "Image of " + response[0].artist.name);
+				// Else display...
+				var artistArtwork = $("<img>");
+				artistArtwork.attr("src", response[0].artist.thumb_url);
+				artistArtwork.attr("width", "100%");
+				artistArtwork.attr("alt", "Image of " + response[0].artist.name);
 
-			artistImage.append(artistArtwork);
+				artistImage.append(artistArtwork);
 			}
 		});
 	}
 
+	// API Call to get and display Artist information
 	function addArtistInfo(artist) {
 		var queryURL = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=${artist}&api_key=${LastFmAPIkey}&format=json`
 
@@ -107,6 +116,7 @@ $(document).ready(function () {
 
 			topSongs.empty();
 
+			// Looping through response to display 3 additional top songs
 			for (let i = 1; i < 4; i++) {
 				var song = $("<a>");
 				song.attr("href", response.toptracks.track[i].url);
@@ -117,6 +127,7 @@ $(document).ready(function () {
 				topSongs.append(song);
 			}
 
+			// Call the following functions to display all desired Artist info
 			getArtistAlbum(artist);
 
 			getSimilarArtists(artist);
@@ -125,6 +136,7 @@ $(document).ready(function () {
 		});
 	}
 
+	// API Call to display map of event location using longitude and latitude
 	function addEventMap(latitude, longitude) {
 		var queryURL = `https://www.google.com/maps/embed/v1/search?q=${latitude},${longitude}&key=${googleAPIkey}`;
 
@@ -141,9 +153,11 @@ $(document).ready(function () {
 		upcomingMap.append(eventMap);
 	}
 
+	// Displays information for Current Event
 	function displayEvent(event) {
 		upcomingMap.empty();
 
+		// If there isn't an event list for the Artist display...
 		if (!event) {
 			upcomingDate.text("N/A");
 			upcomingVenue.text("N/A");
@@ -158,14 +172,17 @@ $(document).ready(function () {
 			upcomingMap.append(noEvent, frownyFace);
 		}
 
+		// Else display all event information
 		else {
 			upcomingDate.text(moment(event.datetime, 'YYYY-MM-DDTHH:mm:ss').format('L LT'));
 			upcomingVenue.text(event.venue.name);
 
+			// Event the event is a "Live Stream" change the location of the event
 			if (!event.venue.location && !event.venue.city) upcomingLocation.text("Online");
 			else if (!event.venue.location) upcomingLocation.text(event.venue.city + ", " + event.venue.country);
 			else upcomingLocation.text(event.venue.location);
 
+			// If there is not a ticket link for the event
 			if (!event.offers.length) {
 				upcomingTicket.removeAttr("href");
 				upcomingTicket.text("N/A");
@@ -177,10 +194,11 @@ $(document).ready(function () {
 				upcomingTicket.text("Ticket");
 			}
 
+			// If the event is a "Live Stream" event change the Map image
 			if (!event.venue.location) {
 				var noEvent = $("<p>").text("Live Stream Event").addClass("py-2")
 				var globe = $("<i>").addClass("fas fa-globe fa-5x py-2");
-	
+
 				upcomingMap.removeClass("p-0").addClass("p-4 text-center");
 				upcomingMap.append(noEvent, globe);
 			}
@@ -189,6 +207,7 @@ $(document).ready(function () {
 		}
 	}
 
+	// API call to display All Events
 	function addAllEvents(artist) {
 		var queryURL = `https://rest.bandsintown.com/artists/${artist}/events?app_id=${BitAPIKey}&date=upcoming`
 
@@ -198,6 +217,7 @@ $(document).ready(function () {
 		}).then(function (response) {
 			allEventsDates.empty();
 
+			// If the Artist has no upcoming events
 			if (!response.length) {
 				allEventsDates.removeClass();
 				allEventsDates.addClass("px-0 pt-4 m-0 text-center");
@@ -211,14 +231,17 @@ $(document).ready(function () {
 			}
 
 			else {
+
+				// Looping through response to display all Artist Events
 				for (let i = 0; i < response.length; i++) {
 					var eventDate = $("<li>");
 					eventDate.addClass("py-2");
-					
+
 					var eventCity = (response[i].venue.city) ? response[i].venue.city : "Online";
 					eventDate.text(`${moment(response[i].datetime, 'YYYY-MM-DDTHH:mm:ss').format('L')} (${eventCity})`);
 					eventDate.attr("index", i);
 
+					// Enables events to update Upcoming Event to display event that was clicked on
 					eventDate.click(function () {
 						displayEvent(response[$(this).attr("index")]);
 					});
@@ -228,6 +251,7 @@ $(document).ready(function () {
 					allEventsDates.addClass("px-3 py-2 m-0");
 				}
 
+				// Displays first event in Upcoming Event section
 				displayEvent(response[0]);
 			}
 		});
@@ -238,18 +262,23 @@ $(document).ready(function () {
 		addAllEvents(artist);
 	}
 
+	// Populates and updates Recent Searched Artists
 	function addRecentlySearched() {
+		// Getting recently searched from local storage
 		recentArtists = JSON.parse(localStorage.getItem("recentArtists"));
 
-		if (!recentArtists) recentArtists = ["The Weeknd", "Dua Lipa", "Billie Eilish", "Kendrick Lamar", "Taylor Swift", 
-		"The Strokes", "Tame Impala", "Doja Cat", "Khruangbin", "Post Malone", "Ariana Grande", "Lana Del Rey", 
-		"Lady Gaga", "Mac DeMarco", "Frank Ocean"];
+		// If there are not any stored artists, populate recent artists with this array
+		if (!recentArtists) recentArtists = ["The Weeknd", "Dua Lipa", "Billie Eilish", "Kendrick Lamar", "Taylor Swift",
+			"The Strokes", "Tame Impala", "Doja Cat", "Khruangbin", "Post Malone", "Ariana Grande", "Lana Del Rey",
+			"Lady Gaga", "Mac DeMarco", "Frank Ocean"];
 
 		recentlySearched.empty();
 
+		// Looping through Recent Artists array and creating list
 		for (let i = 0; i < recentArtists.length; i++) {
 			var artistName = $("<li>").text(recentArtists[i]);
 
+			// Enables list to display Artist on page when clicked on
 			artistName.click(function () {
 				displayArtist($(this).text());
 			});
@@ -258,19 +287,26 @@ $(document).ready(function () {
 		}
 	}
 
+	// Updates Reacently Searched artists...
 	function updateRecentlySearched(artist) {
+
+		// Adds most recent search to front of array
 		recentArtists.unshift(artist);
 
+		// Creates array of unique Artists, ensuring that an artist can only appear once on list
 		var uniqueArtists = [...new Set(recentArtists)];
-        recentArtists = uniqueArtists;
+		recentArtists = uniqueArtists;
 
-        if (recentArtists.length > 15) recentArtists.pop();
+		// Ensures the array is always 15 Artists long. Removes last Artist in array if greater than 15.
+		if (recentArtists.length > 15) recentArtists.pop();
 
+		// Saves recently searched artists to local storage
 		localStorage.setItem("recentArtists", JSON.stringify(recentArtists));
 
 		addRecentlySearched();
 	}
 
+	// Search Bar click function that takes in value of search input 
 	function enableSearchBar() {
 		searchBar.click(function () {
 			searchBar.val('');
@@ -279,7 +315,7 @@ $(document).ready(function () {
 		searchBtn.click(function (event) {
 			event.preventDefault();
 			displayArtist(searchBar.val());
-			
+
 			setTimeout(function () {
 				updateRecentlySearched(artistName.text());
 			}, 500);
@@ -288,6 +324,7 @@ $(document).ready(function () {
 		});
 	}
 
+	// API call that gets Top Artists
 	function addMostPopular() {
 		var queryURL = `https://ws.audioscrobbler.com/2.0/?method=chart.gettopartists&api_key=${LastFmAPIkey}&format=json`;
 
@@ -295,21 +332,29 @@ $(document).ready(function () {
 			url: queryURL,
 			method: "GET"
 		}).then(function (response) {
+			// Array of Most Popular artits from response
 			var mostPopularArray = response.artists.artist;
 
+			// Initializing Valid Artists array, that will hold artists with upcoming events
 			var mostPopularValid = [];
 
+			// Looping through Most Popular artists response...
 			mostPopularArray.forEach(artist => {
+
+				// Nested API call to check which artists have upcoming events
 				var artistURL = `https://rest.bandsintown.com/artists/${artist.name}/events?app_id=${BitAPIKey}&date=upcoming`
 
 				$.ajax({
 					url: artistURL,
 					method: "GET"
 				}).then(function (response) {
+
+					// If Artist has upcoming events, and the Valid Artists array is less than 15, add artist to array
 					if (response.length != 0 && mostPopularValid.length < 15) mostPopularValid.push(artist);
 				});
 			});
 
+			// Allows API to get information before running block
 			setTimeout(function () {
 				for (let i = 0; i < mostPopularValid.length; i++) {
 					var artistLi = $("<li>").text(mostPopularValid[i].name);

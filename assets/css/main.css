@@ -1,10 +1,10 @@
 body {
-    background-color: midnightblue;
+    background-color: #191970;
 }
 
 header h1 {
     font-family: 'Miriam Libre', sans-serif;
-    color: white;
+    color: #ffffff;
     font-weight: bold;
     font-size: 60px;
     text-align: center;
@@ -32,7 +32,7 @@ main {
 }
 
 #artist-info ul li a {
-    color: black;
+    color: #000000;
 }
 
 #top-songs a::after, #similar-artists a::after {
