@@ -17,8 +17,7 @@ AS A User:
 * I WANT to receive music recommendations based on the concert I choose
 * SO THAT I can decide if I would like to attend the concert.
 
-* I WANT to check the local weather for the date of the concert
-* SO THAT I am prepared for the concert
+
 
 ## Credits
 
