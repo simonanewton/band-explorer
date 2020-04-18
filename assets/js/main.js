@@ -154,6 +154,7 @@ $(document).ready(function () {
 			else upcomingLocation.text(event.venue.location);
 
 			if (!event.offers.length) {
+				upcomingTicket.addClass("disabled");
 				upcomingTicket.text("N/A");
 			}
 
@@ -161,6 +162,7 @@ $(document).ready(function () {
 				upcomingTicket.addClass("btn btn-primary py-1 ml-1");
 				upcomingTicket.attr("href", event.offers[0].url);
 				upcomingTicket.attr("target", "_blank");
+				upcomingTicket.removeClass("disabled");
 				upcomingTicket.text("Ticket");
 			}
 
