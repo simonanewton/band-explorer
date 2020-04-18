@@ -36,15 +36,9 @@ $(document).ready(function () {
 			url: queryURL,
 			method: "GET"
 		}).then(function (response) {
-			popularAlbum.empty();
-			popularAlbum.text("Most Popular Album: ");
-
-			var album = $("<a>");
-			album.attr("href", response.topalbums.album[0].url);
-			album.attr("target", "_blank");
-			album.text(response.topalbums.album[0].name);
-
-			popularAlbum.append(album);
+			popularAlbum.attr("href", response.topalbums.album[0].url);
+			popularAlbum.attr("target", "_blank");
+			popularAlbum.text(response.topalbums.album[0].name);
 
 		});
 	}
@@ -57,17 +51,12 @@ $(document).ready(function () {
 			method: "GET"
 		}).then(function (response) {
 			similarArtists.empty();
-			similarArtists.text("Similar Artists: ");
 
-			var maxNum = 3;
-			for (let i = 0; i < maxNum; i++) {
-
+			for (let i = 0; i < 3; i++) {
 				var similar = $("<a>");
 				similar.attr("href", response.similarartists.artist[i].url);
 				similar.attr("target", "_blank");
 				similar.text(response.similarartists.artist[i].name);
-
-				if (i != maxNum - 1) similar.append(", ");
 
 				similarArtists.append(similar);
 			}
@@ -100,26 +89,18 @@ $(document).ready(function () {
 		}).then(function (response) {
 			artistName.text(response.toptracks.track[0].artist.name);
 
-			popularSong.empty();
-			popularSong.text("Most Popular Song: ");
-
-			var songTitle = $("<a>");
-			songTitle.attr("href", response.toptracks.track[0].url);
-			songTitle.attr("target", "_blank");
-			songTitle.text(response.toptracks.track[0].name);
-			popularSong.append(songTitle);
+			popularSong.attr("href", response.toptracks.track[0].url);
+			popularSong.attr("target", "_blank");
+			popularSong.text(response.toptracks.track[0].name);
 
 			topSongs.empty();
-			topSongs.text("More Top Songs: ");
 
-			var maxNumDisplay = 4;
-			for (let i = 1; i < maxNumDisplay; i++) {
+			for (let i = 1; i < 4; i++) {
 				var song = $("<a>");
 				song.attr("href", response.toptracks.track[i].url);
 				song.attr("target", "_blank");
+				song.addClass("d-inline-block");
 				song.text(response.toptracks.track[i].name);
-
-				if (i < maxNumDisplay - 1) song.append(", ");
 
 				topSongs.append(song);
 			}
@@ -152,10 +133,10 @@ $(document).ready(function () {
 		upcomingMap.empty();
 
 		if (!event) {
-			upcomingDate.text("Event Date: N/A");
-			upcomingVenue.text("Event Venue: N/A");
-			upcomingLocation.text("Event Location: N/A");
-			upcomingTicket.text("Ticket Link: N/A");
+			upcomingDate.text("N/A");
+			upcomingVenue.text("N/A");
+			upcomingLocation.text("N/A");
+			upcomingTicket.text("N/A");
 
 			var noEvent = $("<p>").text("No Event").addClass("py-2")
 			var frownyFace = $("<i>").addClass("far fa-frown fa-5x py-2");
@@ -165,26 +146,22 @@ $(document).ready(function () {
 		}
 
 		else {
-			upcomingDate.text("Event Date: " + moment(event.datetime, 'YYYY-MM-DDTHH:mm:ss').format('L LT'));
-			upcomingVenue.text("Event Venue: " + event.venue.name);
+			upcomingDate.text(moment(event.datetime, 'YYYY-MM-DDTHH:mm:ss').format('L LT'));
+			upcomingVenue.text(event.venue.name);
 
-			if (!event.venue.location && !event.venue.city) upcomingLocation.text("Event Location: Online");
-			else if (!event.venue.location) upcomingLocation.text("Event Location: " + event.venue.city + ", " + event.venue.country);
-			else upcomingLocation.text("Event Location: " + event.venue.location);
+			if (!event.venue.location && !event.venue.city) upcomingLocation.text("Online");
+			else if (!event.venue.location) upcomingLocation.text(event.venue.city + ", " + event.venue.country);
+			else upcomingLocation.text(event.venue.location);
 
 			if (!event.offers.length) {
-				upcomingTicket.text("Ticket Link: N/A");
+				upcomingTicket.text("N/A");
 			}
 
 			else {
-				var ticketLink = $("<a>");
-				ticketLink.addClass("btn btn-primary py-1 ml-1");
-				ticketLink.attr("href", event.offers[0].url);
-				ticketLink.attr("target", "_blank");
-				ticketLink.text("Ticket");
-
-				upcomingTicket.text("Ticket Link: ");
-				upcomingTicket.append(ticketLink);
+				upcomingTicket.addClass("btn btn-primary py-1 ml-1");
+				upcomingTicket.attr("href", event.offers[0].url);
+				upcomingTicket.attr("target", "_blank");
+				upcomingTicket.text("Ticket");
 			}
 
 			if (!event.venue.location) {
@@ -225,7 +202,7 @@ $(document).ready(function () {
 					var eventDate = $("<li>");
 					eventDate.addClass("py-2");
 					
-					var eventCity = (response[i].venue.city) ? response[i].venue.city : "Stream";
+					var eventCity = (response[i].venue.city) ? response[i].venue.city : "Online";
 					eventDate.text(`${moment(response[i].datetime, 'YYYY-MM-DDTHH:mm:ss').format('L')} (${eventCity})`);
 					eventDate.attr("index", i);
 
@@ -288,7 +265,10 @@ $(document).ready(function () {
 		searchBtn.click(function (event) {
 			event.preventDefault();
 			displayArtist(searchBar.val());
-			updateRecentlySearched(searchBar.val());
+			
+			setTimeout(function () {
+				updateRecentlySearched(artistName.text());
+			}, 500);
 		});
 	}
 
@@ -331,7 +311,7 @@ $(document).ready(function () {
 	//--------------------------------------------------------------
 
 	function main() {
-		// localStorage.clear();
+		localStorage.clear();
 		console.clear();
 
 		enableSearchBar();
