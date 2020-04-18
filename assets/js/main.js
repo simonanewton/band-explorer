@@ -74,14 +74,26 @@ $(document).ready(function () {
 		}).then(function (response) {
 			artistImage.empty();
 
+			// If API call returns empty array...
+			if (!response.length) {
+				var emptyArtist = $("<h3>");
+				emptyArtist.addClass("px-0 pt-4 m-0 text-center");
+				emptyArtist.text("Artist Image Unavailable");
+				 
+				artistImage.append(emptyArtist);
+
+			} else {
 			var artistArtwork = $("<img>");
 			artistArtwork.attr("src", response[0].artist.thumb_url);
 			artistArtwork.attr("width", "100%");
+			artistArtwork.attr("alt", "Image of " + response[0].artist.name);
 
 			artistImage.append(artistArtwork);
+			}
 		});
 	}
 
+	// API call to obain Artist Name, Top Song and More Top Songs
 	function addArtistInfo(artist) {
 		var queryURL = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=${artist}&api_key=${LastFmAPIkey}&format=json`
 
@@ -180,6 +192,7 @@ $(document).ready(function () {
 		}
 	}
 
+	// API call to obtain all event information
 	function addAllEvents(artist) {
 		var queryURL = `https://rest.bandsintown.com/artists/${artist}/events?app_id=${BitAPIKey}&date=upcoming`
 
@@ -232,8 +245,7 @@ $(document).ready(function () {
 	function addRecentlySearched() {
 		recentArtists = JSON.parse(localStorage.getItem("recentArtists"));
 
-		if (!recentArtists) recentArtists = ["The Weeknd", "Dua Lipa", "Billie Eilish", "Kanye West", "Drake", "Childish Gambino",
-			"Tame Impala", "Doja Cat", "The Beatles", "Post Malone", "Ariana Grande", "Lana Del Rey", "Lady Gaga", "Radiohead", "Frank Ocean"];
+		if (!recentArtists) recentArtists = ["The Weeknd", "Dua Lipa", "Billie Eilish", "Kendrick Lamar", "Taylor Swift", "The Strokes", "Tame Impala", "Doja Cat", "Khruangbin", "Post Malone", "Ariana Grande", "Lana Del Rey", "Lady Gaga", "Mac DeMarco", "Frank Ocean"];
 
 		recentlySearched.empty();
 
