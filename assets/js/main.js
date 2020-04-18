@@ -74,7 +74,6 @@ $(document).ready(function () {
 		}).then(function (response) {
 			artistImage.empty();
 
-			// If API call returns empty array...
 			if (!response.length) {
 				var emptyArtist = $("<h3>");
 				emptyArtist.addClass("px-0 pt-4 m-0 text-center");
@@ -93,7 +92,6 @@ $(document).ready(function () {
 		});
 	}
 
-	// API call to obain Artist Name, Top Song and More Top Songs
 	function addArtistInfo(artist) {
 		var queryURL = `https://ws.audioscrobbler.com/2.0/?method=artist.gettoptracks&artist=${artist}&api_key=${LastFmAPIkey}&format=json`
 
@@ -150,6 +148,7 @@ $(document).ready(function () {
 			upcomingDate.text("N/A");
 			upcomingVenue.text("N/A");
 			upcomingLocation.text("N/A");
+			upcomingTicket.removeAttr("href");
 			upcomingTicket.text("N/A");
 
 			var noEvent = $("<p>").text("No Event").addClass("py-2")
@@ -168,15 +167,13 @@ $(document).ready(function () {
 			else upcomingLocation.text(event.venue.location);
 
 			if (!event.offers.length) {
-				upcomingTicket.addClass("disabled");
+				upcomingTicket.removeAttr("href");
 				upcomingTicket.text("N/A");
 			}
 
 			else {
-				upcomingTicket.addClass("btn btn-primary py-1 ml-1");
 				upcomingTicket.attr("href", event.offers[0].url);
 				upcomingTicket.attr("target", "_blank");
-				upcomingTicket.removeClass("disabled");
 				upcomingTicket.text("Ticket");
 			}
 
@@ -192,7 +189,6 @@ $(document).ready(function () {
 		}
 	}
 
-	// API call to obtain all event information
 	function addAllEvents(artist) {
 		var queryURL = `https://rest.bandsintown.com/artists/${artist}/events?app_id=${BitAPIKey}&date=upcoming`
 
@@ -245,7 +241,9 @@ $(document).ready(function () {
 	function addRecentlySearched() {
 		recentArtists = JSON.parse(localStorage.getItem("recentArtists"));
 
-		if (!recentArtists) recentArtists = ["The Weeknd", "Dua Lipa", "Billie Eilish", "Kendrick Lamar", "Taylor Swift", "The Strokes", "Tame Impala", "Doja Cat", "Khruangbin", "Post Malone", "Ariana Grande", "Lana Del Rey", "Lady Gaga", "Mac DeMarco", "Frank Ocean"];
+		if (!recentArtists) recentArtists = ["The Weeknd", "Dua Lipa", "Billie Eilish", "Kendrick Lamar", "Taylor Swift", 
+		"The Strokes", "Tame Impala", "Doja Cat", "Khruangbin", "Post Malone", "Ariana Grande", "Lana Del Rey", 
+		"Lady Gaga", "Mac DeMarco", "Frank Ocean"];
 
 		recentlySearched.empty();
 
@@ -329,7 +327,6 @@ $(document).ready(function () {
 	//--------------------------------------------------------------
 
 	function main() {
-		localStorage.clear();
 		console.clear();
 
 		enableSearchBar();
